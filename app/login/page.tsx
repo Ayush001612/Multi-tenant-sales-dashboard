@@ -14,7 +14,7 @@ interface LoginProps {
   onLogin: (tenant: Tenant, role: Role) => void;
 }
 
-export function Login({ onLogin }: LoginProps) {
+export default function Login({ onLogin }: LoginProps) {
   const [selectedTenant, setSelectedTenant] =
     useState<Tenant>('Organization A');
   const [selectedRole, setSelectedRole] = useState<Role>('Admin');
