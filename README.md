@@ -25,26 +25,26 @@ Authentication and data are mocked as per the assignment scope. No backend is im
 
 The project follows a **feature-based and scalable folder structure** aligned with real-world frontend practices.
 
+```text
 app/
 ├── login/
-│ └── page.tsx
+│   └── page.tsx
 ├── dashboard/
-│ ├── layout.tsx
-│ ├── page.tsx
-│ ├── leads/
-│ │ └── page.tsx
-│ ├── call-logs/
-│ │ └── page.tsx
-│ └── settings/
-│ └── page.tsx
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── leads/
+│   │   └── page.tsx
+│   ├── call-logs/
+│   │   └── page.tsx
+│   └── settings/
+│       └── page.tsx
 
 components/
 ├── ui/ // Reusable shadcn components
 
 types/
 ├── index.ts
-
-
+```
 This structure ensures clear separation of concerns and allows the application to scale easily.
 
 ---
