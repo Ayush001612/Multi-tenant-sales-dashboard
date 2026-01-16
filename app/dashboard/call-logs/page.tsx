@@ -89,7 +89,8 @@ export default function CallLogs({ user }: CallLogsProps) {
   const filteredCallLogs = useMemo(() => {
     if (!user) return [];
     return mockCallLogs.filter((log) => log.tenant === user.tenant);
-  }, [user.tenant]);
+  }, [user]);
+  
 
   const stats = useMemo(() => {
     return {
