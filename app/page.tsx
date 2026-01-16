@@ -1,26 +1,22 @@
 'use client';
 import { useState, lazy, Suspense, useCallback } from 'react';
 import { Login } from '@/app/login/page';
-import { DashboardLayout } from '@/app/dashboard/layout';
+import  DashboardLayout  from '@/app/dashboard/layout';
 import type { User, Role, Tenant } from '@/types/index';
 
 // ✨ OPTIMIZATION: Lazy Loading & Code Splitting
 // Load route components only when needed to reduce initial bundle size
 const Dashboard = lazy(() =>
-  import('./dashboard/page').then((module) => ({ default: module.Dashboard }))
+  import('./dashboard/page')
 );
 const Leads = lazy(() =>
-  import('./dashboard/leads/page').then((module) => ({ default: module.Leads }))
+  import('./dashboard/leads/page')
 );
 const CallLogs = lazy(() =>
-  import('./dashboard/call-logs/page').then((module) => ({
-    default: module.CallLogs,
-  }))
-);
+  import('./dashboard/call-logs/page')
+  );
 const Settings = lazy(() =>
-  import('./dashboard/settings/page').then((module) => ({
-    default: module.Settings,
-  }))
+  import('./dashboard/settings/page')
 );
 
 const PageLoadingFallback = () => (
@@ -36,8 +32,6 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [currentPage, setCurrentPage] = useState('dashboard');
 
-  // ✨ OPTIMIZATION: useCallback to prevent unnecessary re-renders
-  // Memoize callback functions so child components don't re-render unnecessarily
   const handleLogin = useCallback((tenant: Tenant, role: Role) => {
     setUser({
       name: 'Demo User',
@@ -65,8 +59,7 @@ export default function App() {
     return <Login onLogin={handleLogin} />;
   }
 
-  // ✨ OPTIMIZATION: Lazy-loaded page rendering with Suspense
-  // Each route component is loaded on-demand and wrapped in Suspense for loading states
+
   const renderPage = () => {
     switch (currentPage) {
       case 'dashboard':

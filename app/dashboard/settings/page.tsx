@@ -7,7 +7,7 @@ interface SettingsProps {
   user: User;
 }
 
-export function Settings({ user }: SettingsProps) {
+export default function Settings({ user }: SettingsProps) {
   const settingsSections = [
     {
       id: 'organization',

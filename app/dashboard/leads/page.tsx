@@ -84,7 +84,7 @@ const mockLeads: Lead[] = [
   },
 ];
 
-export function Leads({ user }: LeadsProps) {
+export default function Leads({ user }: LeadsProps) {
   const [statusFilter, setStatusFilter] = useState<LeadStatus | 'All'>('All');
   const [loading, setLoading] = useState(false);
   const [leads, setLeads] = useState<Lead[]>(mockLeads);

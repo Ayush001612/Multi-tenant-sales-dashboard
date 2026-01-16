@@ -20,7 +20,7 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
-export function DashboardLayout({
+export default function DashboardLayout({
   user,
   currentPage,
   onNavigate,

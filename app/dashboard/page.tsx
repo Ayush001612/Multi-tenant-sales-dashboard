@@ -7,7 +7,7 @@ interface DashboardProps {
   user: User;
 }
 
-export function Dashboard({ user }: DashboardProps) {
+export default function Dashboard({ user }: DashboardProps) {
   const stats = [
     {
       label: 'Total Leads',
