@@ -1,7 +1,7 @@
 'use client';
 import { useState, lazy, Suspense, useCallback } from 'react';
 import  Login  from '@/app/login/page';
-import  DashboardLayout  from '@/app/dashboard/layout';
+import  DashboardLayout  from '@/app/dashboard/Dashboardlayout';
 import type { User, Role, Tenant } from '@/types/index';
 
 // ✨ OPTIMIZATION: Lazy Loading & Code Splitting
