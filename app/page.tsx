@@ -1,65 +1,100 @@
-import Image from "next/image";
+'use client';
+import { useState, lazy, Suspense, useCallback } from 'react';
+import { Login } from '@/app/login/page';
+import { DashboardLayout } from '@/app/dashboard/layout';
+import type { User, Role, Tenant } from '@/types/index';
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+// ✨ OPTIMIZATION: Lazy Loading & Code Splitting
+// Load route components only when needed to reduce initial bundle size
+const Dashboard = lazy(() =>
+  import('./dashboard/page').then((module) => ({ default: module.Dashboard }))
+);
+const Leads = lazy(() =>
+  import('./dashboard/leads/page').then((module) => ({ default: module.Leads }))
+);
+const CallLogs = lazy(() =>
+  import('./dashboard/call-logs/page').then((module) => ({
+    default: module.CallLogs,
+  }))
+);
+const Settings = lazy(() =>
+  import('./dashboard/settings/page').then((module) => ({
+    default: module.Settings,
+  }))
+);
+
+const PageLoadingFallback = () => (
+  <div className='flex items-center justify-center min-h-[400px]'>
+    <div className='text-center'>
+      <div className='inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent mb-4'></div>
+      <p className='text-sm text-gray-600'>Loading...</p>
     </div>
+  </div>
+);
+
+export default function App() {
+  const [user, setUser] = useState<User | null>(null);
+  const [currentPage, setCurrentPage] = useState('dashboard');
+
+  // ✨ OPTIMIZATION: useCallback to prevent unnecessary re-renders
+  // Memoize callback functions so child components don't re-render unnecessarily
+  const handleLogin = useCallback((tenant: Tenant, role: Role) => {
+    setUser({
+      name: 'Demo User',
+      role,
+      tenant,
+    });
+    setCurrentPage('dashboard');
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    setUser(null);
+    setCurrentPage('dashboard');
+  }, []);
+
+  const handleTenantSwitch = useCallback((tenant: Tenant) => {
+    setUser((prevUser) => (prevUser ? { ...prevUser, tenant } : null));
+  }, []);
+
+  const handleNavigate = useCallback((page: string) => {
+    setCurrentPage(page);
+  }, []);
+
+  // Render login screen if not authenticated
+  if (!user) {
+    return <Login onLogin={handleLogin} />;
+  }
+
+  // ✨ OPTIMIZATION: Lazy-loaded page rendering with Suspense
+  // Each route component is loaded on-demand and wrapped in Suspense for loading states
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'dashboard':
+        return <Dashboard user={user} />;
+      case 'leads':
+        return <Leads user={user} />;
+      case 'call-logs':
+        return <CallLogs user={user} />;
+      case 'settings':
+        return user.role === 'Admin' ? (
+          <Settings user={user} />
+        ) : (
+          <Dashboard user={user} />
+        );
+      default:
+        return <Dashboard user={user} />;
+    }
+  };
+
+  return (
+    <DashboardLayout
+      user={user}
+      currentPage={currentPage}
+      onNavigate={handleNavigate}
+      onTenantSwitch={handleTenantSwitch}
+      onLogout={handleLogout}
+    >
+      <Suspense fallback={<PageLoadingFallback />}>{renderPage()}</Suspense>
+    </DashboardLayout>
   );
 }
