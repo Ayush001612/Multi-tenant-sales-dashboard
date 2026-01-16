@@ -87,6 +87,7 @@ const mockCallLogs: CallLog[] = [
 export default function CallLogs({ user }: CallLogsProps) {
   const [loading, setLoading] = useState(false);
   const filteredCallLogs = useMemo(() => {
+    if (!user) return [];
     return mockCallLogs.filter((log) => log.tenant === user.tenant);
   }, [user.tenant]);
 
