@@ -1,5 +1,5 @@
 'use client';
-export const dynamic = 'force-dynamic';
+
 import { useState, useCallback, useMemo } from 'react';
 import {
   Table,
@@ -86,6 +86,7 @@ const mockLeads: Lead[] = [
 ];
 
 export default function Leads({ user }: LeadsProps) {
+ 
   const [statusFilter, setStatusFilter] = useState<LeadStatus | 'All'>('All');
   const [loading, setLoading] = useState(false);
   const [leads, setLeads] = useState<Lead[]>(mockLeads);

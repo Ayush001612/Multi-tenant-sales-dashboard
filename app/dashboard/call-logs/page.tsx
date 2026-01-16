@@ -1,5 +1,5 @@
 'use client';
-export const dynamic = 'force-dynamic';
+
 
 import { useState, useMemo, useCallback } from 'react';
 import {
@@ -86,7 +86,9 @@ const mockCallLogs: CallLog[] = [
   },
 ];
 
+
 export default function CallLogs({ user }: CallLogsProps) {
+ 
   const [loading, setLoading] = useState(false);
   const filteredCallLogs = useMemo(() => {
     if (!user) return [];

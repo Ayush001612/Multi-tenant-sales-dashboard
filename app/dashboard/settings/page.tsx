@@ -1,5 +1,5 @@
 'use client';
-export const dynamic = 'force-dynamic';
+
 import { Settings as SettingsIcon, Shield, Bell, Database } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import type { User } from '@/types/index';
