@@ -1,6 +1,7 @@
+'use client';
 import { Users, Phone, TrendingUp, Clock } from 'lucide-react';
 import type { User } from '@/types/index';
-import { DashboardLayout } from './layout';
+
 
 interface DashboardProps {
   user: User;
