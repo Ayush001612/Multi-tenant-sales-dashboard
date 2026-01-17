@@ -41,6 +41,7 @@ app/
 
 components/
 ├── ui/ // Reusable shadcn components
+├── Login.tsx 
 
 types/
 ├── index.ts
