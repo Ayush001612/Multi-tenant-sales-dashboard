@@ -1,6 +1,6 @@
 'use client';
 import { useState, lazy, Suspense, useCallback } from 'react';
-import  Login  from '@/app/login/page';
+import Login from '@/components/Login';
 import  DashboardLayout  from '@/app/dashboard/Dashboardlayout';
 import type { User, Role, Tenant } from '@/types/index';
 
