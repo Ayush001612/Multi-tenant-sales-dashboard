@@ -2,13 +2,16 @@
 
 import { Settings as SettingsIcon, Shield, Bell, Database } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import type { User } from '@/types/index';
 
-interface SettingsProps {
-  user: User;
-}
 
-export default function Settings({ user }: SettingsProps) {
+
+export default function Settings() {
+  const user = {
+    id: "1",
+    name: "Admin User",
+    role: "Admin",
+    tenant: "Organization A",
+  };
   const settingsSections = [
     {
       id: 'organization',

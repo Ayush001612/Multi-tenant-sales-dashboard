@@ -15,9 +15,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Phone } from 'lucide-react';
 import type { User, CallLog, CallOutcome } from '@/types/index';
 
-interface CallLogsProps {
-  user: User;
-}
 
 const mockCallLogs: CallLog[] = [
   {
@@ -87,8 +84,14 @@ const mockCallLogs: CallLog[] = [
 ];
 
 
-export default function CallLogs({ user }: CallLogsProps) {
- 
+export default function CallLogs() {
+  const user = useMemo<User>(() => ({
+    id: "1",
+    name: "Admin User",
+    role: "Admin",
+    tenant: "Organization A",
+  }), []);
+  
   const [loading, setLoading] = useState(false);
   const filteredCallLogs = useMemo(() => {
     if (!user) return [];

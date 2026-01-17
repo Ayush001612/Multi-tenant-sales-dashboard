@@ -63,19 +63,19 @@ export default function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'dashboard':
-        return <Dashboard user={user} />;
+        return <Dashboard />;
       case 'leads':
-        return <Leads user={user} />;
+        return <Leads  />;
       case 'call-logs':
-        return <CallLogs user={user} />;
+        return <CallLogs />;
       case 'settings':
         return user.role === 'Admin' ? (
-          <Settings user={user} />
+          <Settings />
         ) : (
-          <Dashboard user={user} />
+          <Dashboard  />
         );
       default:
-        return <Dashboard user={user} />;
+        return <Dashboard  />;
     }
   };
 

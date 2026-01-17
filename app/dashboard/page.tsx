@@ -3,11 +3,15 @@ import { Users, Phone, TrendingUp, Clock } from 'lucide-react';
 import type { User } from '@/types/index';
 
 
-interface DashboardProps {
-  user: User;
-}
 
-export default function Dashboard({ user }: DashboardProps) {
+
+export default function Dashboard() {
+  const user = {
+    id: "1",
+    name: "Admin User",
+    role: "Admin",
+    tenant: "Organization A",
+  };
   const stats = [
     {
       label: 'Total Leads',

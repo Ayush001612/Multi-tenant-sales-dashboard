@@ -22,9 +22,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Lock, Users } from 'lucide-react';
 import type { User, Lead, LeadStatus } from '@/types/index';
 
-interface LeadsProps {
-  user: User;
-}
 
 const mockLeads: Lead[] = [
   {
@@ -85,13 +82,21 @@ const mockLeads: Lead[] = [
   },
 ];
 
-export default function Leads({ user }: LeadsProps) {
+export default function Leads() {
+  const user = {
+    id: "1",
+    name: "Admin User",
+    role: "Admin",
+    tenant: "Organization A",
+  };
  
   const [statusFilter, setStatusFilter] = useState<LeadStatus | 'All'>('All');
   const [loading, setLoading] = useState(false);
   const [leads, setLeads] = useState<Lead[]>(mockLeads);
+ 
 
-  const isAdmin = user.role === 'Admin';
+
+  const isAdmin = user?.role === 'Admin';
 
   const filteredLeads = useMemo(() => {
     return leads
